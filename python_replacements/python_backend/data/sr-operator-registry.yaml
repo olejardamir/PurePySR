@@ -1,0 +1,525 @@
+operator_registry_version: "v0-draft"
+spec_version: "EQC-SR-v1.0.3"
+notes: >
+  Draft operator registry schema and starter operator set. Fill in numeric policies,
+  complexity costs, exports, and test vectors before any conformance claim.
+
+operators:
+  - operator_id: "sr.arith.add_v1"
+    namespace: "sr.arith"
+    name: "add"
+    version: "v1"
+    arity: 2
+    input_types: ["float64"]
+    output_type: "float64"
+    search_visible: true
+    purity_class: "PURE"
+    determinism: "DETERMINISTIC"
+    complexity_cost: 1
+    domain_policy:
+      finite_inputs_required: true
+      protected_domain: "all_real_finite"
+    numeric_policy:
+      nan_policy: "invalid_candidate"
+      inf_policy: "invalid_candidate"
+    implementations:
+      numpy: "python_backend.ops.add_numpy"
+      numba: null
+    exports:
+      sympy: "x + y"
+      latex: "x + y"
+
+  - operator_id: "sr.arith.mul_v1"
+    namespace: "sr.arith"
+    name: "mul"
+    version: "v1"
+    arity: 2
+    input_types: ["float64"]
+    output_type: "float64"
+    search_visible: true
+    purity_class: "PURE"
+    determinism: "DETERMINISTIC"
+    complexity_cost: 1
+    domain_policy:
+      finite_inputs_required: true
+      protected_domain: "all_real_finite"
+    numeric_policy:
+      nan_policy: "invalid_candidate"
+      inf_policy: "invalid_candidate"
+    implementations:
+      numpy: "python_backend.ops.mul_numpy"
+      numba: null
+    exports:
+      sympy: "x * y"
+      latex: "x \\cdot y"
+
+  - operator_id: "sr.math.protected_div_v1"
+    namespace: "sr.math"
+    name: "protected_div"
+    version: "v1"
+    arity: 2
+    input_types: ["float64"]
+    output_type: "float64"
+    search_visible: true
+    purity_class: "PURE"
+    determinism: "DETERMINISTIC"
+    complexity_cost: 2
+    domain_policy:
+      finite_inputs_required: true
+      protected_domain: "all_real_finite"
+    numeric_policy:
+      nan_policy: "invalid_candidate"
+      inf_policy: "invalid_candidate"
+      eps_denom_ref: "NumericPolicy.EPS_DENOM"
+    implementations:
+      numpy: "python_backend.ops.protected_div_numpy"
+      numba: null
+    exports:
+      sympy: "x / y"
+      latex: "\\frac{x}{y}"
+
+  - operator_id: "sr.math.pow_v1"
+    namespace: "sr.math"
+    name: "pow"
+    version: "v1"
+    arity: 2
+    input_types: ["float64"]
+    output_type: "float64"
+    search_visible: true
+    purity_class: "PURE"
+    determinism: "DETERMINISTIC"
+    complexity_cost: 2
+    domain_policy:
+      finite_inputs_required: true
+      protected_domain: "positive_real_finite_base"
+    numeric_policy:
+      nan_policy: "invalid_candidate"
+      inf_policy: "invalid_candidate"
+    implementations:
+      numpy: "python_backend.ops.pow_numpy"
+      numba: null
+    exports:
+      sympy: "x ** y"
+      latex: "x^{y}"
+
+  - operator_id: "sr.arith.sub_v1"
+    namespace: "sr.arith"
+    name: "sub"
+    version: "v1"
+    arity: 2
+    input_types: ["float64"]
+    output_type: "float64"
+    search_visible: true
+    purity_class: "PURE"
+    determinism: "DETERMINISTIC"
+    complexity_cost: 1
+    domain_policy:
+      finite_inputs_required: true
+      protected_domain: "all_real_finite"
+    numeric_policy:
+      nan_policy: "invalid_candidate"
+      inf_policy: "invalid_candidate"
+    implementations:
+      numpy: "python_backend.ops.sub_numpy"
+      numba: null
+    exports:
+      sympy: "x - y"
+      latex: "x - y"
+
+  - operator_id: "sr.math.sin_v1"
+    namespace: "sr.math"
+    name: "sin"
+    version: "v1"
+    arity: 1
+    input_types: ["float64"]
+    output_type: "float64"
+    search_visible: true
+    purity_class: "PURE"
+    determinism: "DETERMINISTIC"
+    complexity_cost: 2
+    domain_policy:
+      finite_inputs_required: true
+      protected_domain: "all_real_finite"
+    numeric_policy:
+      nan_policy: "invalid_candidate"
+      inf_policy: "invalid_candidate"
+    implementations:
+      numpy: "python_backend.ops.sin_numpy"
+      numba: null
+    exports:
+      sympy: "sin(x)"
+      latex: "\\sin(x)"
+
+  - operator_id: "sr.math.cos_v1"
+    namespace: "sr.math"
+    name: "cos"
+    version: "v1"
+    arity: 1
+    input_types: ["float64"]
+    output_type: "float64"
+    search_visible: true
+    purity_class: "PURE"
+    determinism: "DETERMINISTIC"
+    complexity_cost: 2
+    domain_policy:
+      finite_inputs_required: true
+      protected_domain: "all_real_finite"
+    numeric_policy:
+      nan_policy: "invalid_candidate"
+      inf_policy: "invalid_candidate"
+    implementations:
+      numpy: "python_backend.ops.cos_numpy"
+      numba: null
+    exports:
+      sympy: "cos(x)"
+      latex: "\\cos(x)"
+
+  - operator_id: "sr.math.abs_v1"
+    namespace: "sr.math"
+    name: "abs"
+    version: "v1"
+    arity: 1
+    input_types: ["float64"]
+    output_type: "float64"
+    search_visible: true
+    purity_class: "PURE"
+    determinism: "DETERMINISTIC"
+    complexity_cost: 2
+    domain_policy:
+      finite_inputs_required: true
+      protected_domain: "all_real_finite"
+    numeric_policy:
+      nan_policy: "invalid_candidate"
+      inf_policy: "invalid_candidate"
+    implementations:
+      numpy: "python_backend.ops.abs_numpy"
+      numba: null
+    exports:
+      sympy: "Abs(x)"
+      latex: "|x|"
+
+  - operator_id: "sr.math.safe_log_v1"
+    namespace: "sr.math"
+    name: "safe_log"
+    version: "v1"
+    arity: 1
+    input_types: ["float64"]
+    output_type: "float64"
+    search_visible: true
+    purity_class: "PURE"
+    determinism: "DETERMINISTIC"
+    complexity_cost: 2
+    domain_policy:
+      finite_inputs_required: true
+      protected_domain: "all_real_finite"
+    numeric_policy:
+      nan_policy: "invalid_candidate"
+      inf_policy: "invalid_candidate"
+      eps_denom_ref: "NumericPolicy.EPS_DENOM"
+    implementations:
+      numpy: "python_backend.ops.safe_log_numpy"
+      numba: null
+    exports:
+      sympy: "log(abs(x) + EPS_DENOM)"
+      latex: "\\log(|x| + \\varepsilon)"
+
+  - operator_id: "sr.math.exp_v1"
+    namespace: "sr.math"
+    name: "exp"
+    version: "v1"
+    arity: 1
+    input_types: ["float64"]
+    output_type: "float64"
+    search_visible: true
+    purity_class: "PURE"
+    determinism: "DETERMINISTIC"
+    complexity_cost: 2
+    domain_policy:
+      finite_inputs_required: true
+      protected_domain: "all_real_finite"
+    numeric_policy:
+      nan_policy: "invalid_candidate"
+      inf_policy: "invalid_candidate"
+    implementations:
+      numpy: "np.exp"
+      numba: null
+    exports:
+      sympy: "exp(x)"
+      latex: "\\exp(x)"
+
+  - operator_id: "sr.math.tan_v1"
+    namespace: "sr.math"
+    name: "tan"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "tan(x)"}
+
+  - operator_id: "sr.math.factorial_v1"
+    namespace: "sr.math"
+    name: "factorial"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "gamma(x + 1)"}
+
+  - operator_id: "sr.math.sqrt_v1"
+    namespace: "sr.math"
+    name: "sqrt"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "sqrt(x)"}
+
+  - operator_id: "sr.math.logistic_v1"
+    namespace: "sr.math"
+    name: "logistic"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "1 / (1 + exp(-x))"}
+
+  - operator_id: "sr.math.step_v1"
+    namespace: "sr.math"
+    name: "step"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "Piecewise((1, x > 0), (0, True))"}
+
+  - operator_id: "sr.math.sign_v1"
+    namespace: "sr.math"
+    name: "sgn"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "sign(x)"}
+
+  - operator_id: "sr.math.gauss_v1"
+    namespace: "sr.math"
+    name: "gauss"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "exp(-(x ** 2))"}
+
+  - operator_id: "sr.math.tanh_v1"
+    namespace: "sr.math"
+    name: "tanh"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "tanh(x)"}
+
+  - operator_id: "sr.math.erf_v1"
+    namespace: "sr.math"
+    name: "erf"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "erf(x)"}
+
+  - operator_id: "sr.math.erfc_v1"
+    namespace: "sr.math"
+    name: "erfc"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "erfc(x)"}
+
+  - operator_id: "sr.bool.equal_v1"
+    namespace: "sr.bool"
+    name: "equal"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    exports: {sympy: "Piecewise((1, Eq(x, y)), (0, True))"}
+
+  - operator_id: "sr.bool.less_equal_v1"
+    namespace: "sr.bool"
+    name: "less_or_equal"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    exports: {sympy: "Piecewise((1, x <= y), (0, True))"}
+
+  - operator_id: "sr.bool.greater_v1"
+    namespace: "sr.bool"
+    name: "greater"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    exports: {sympy: "Piecewise((1, x > y), (0, True))"}
+
+  - operator_id: "sr.bool.greater_equal_v1"
+    namespace: "sr.bool"
+    name: "greater_or_equal"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    exports: {sympy: "Piecewise((1, x >= y), (0, True))"}
+
+  - operator_id: "sr.bool.and_v1"
+    namespace: "sr.bool"
+    name: "and"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    exports: {sympy: "Piecewise((1, x > 0 and y > 0), (0, True))"}
+
+  - operator_id: "sr.bool.or_v1"
+    namespace: "sr.bool"
+    name: "or"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    exports: {sympy: "Piecewise((1, x > 0 or y > 0), (0, True))"}
+
+  - operator_id: "sr.bool.xor_v1"
+    namespace: "sr.bool"
+    name: "xor"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    exports: {sympy: "Piecewise((1, xor(x > 0, y > 0)), (0, True))"}
+
+  - operator_id: "sr.bool.not_v1"
+    namespace: "sr.bool"
+    name: "not"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "Piecewise((0, x > 0), (1, True))"}
+
+  - operator_id: "sr.math.min_v1"
+    namespace: "sr.math"
+    name: "min"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    exports: {sympy: "Min(x, y)"}
+
+  - operator_id: "sr.math.max_v1"
+    namespace: "sr.math"
+    name: "max"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    exports: {sympy: "Max(x, y)"}
+
+  - operator_id: "sr.math.mod_v1"
+    namespace: "sr.math"
+    name: "mod"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    exports: {sympy: "Mod(x, y)"}
+
+  - operator_id: "sr.math.floor_v1"
+    namespace: "sr.math"
+    name: "floor"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "floor(x)"}
+
+  - operator_id: "sr.math.ceil_v1"
+    namespace: "sr.math"
+    name: "ceil"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "ceiling(x)"}
+
+  - operator_id: "sr.math.round_v1"
+    namespace: "sr.math"
+    name: "round"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "floor(x + 1/2)"}
+
+  - operator_id: "sr.math.asin_v1"
+    namespace: "sr.math"
+    name: "asin"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "asin(x)"}
+
+  - operator_id: "sr.math.acos_v1"
+    namespace: "sr.math"
+    name: "acos"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "acos(x)"}
+
+  - operator_id: "sr.math.atan_v1"
+    namespace: "sr.math"
+    name: "atan"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "atan(x)"}
+
+  - operator_id: "sr.math.atan2_v1"
+    namespace: "sr.math"
+    name: "atan2"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    exports: {sympy: "atan2(x, y)"}
+
+  - operator_id: "sr.arith.neg_v1"
+    namespace: "sr.arith"
+    name: "neg"
+    version: "v1"
+    arity: 1
+    search_visible: true
+    exports: {sympy: "-x"}
+
+  - operator_id: "sr.ts.delay_v1"
+    namespace: "sr.ts"
+    name: "delay"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    notes: "Uses row order; second argument is rounded to a positive integer window."
+    exports: {sympy: "delay(x, n)"}
+
+  - operator_id: "sr.ts.sma_v1"
+    namespace: "sr.ts"
+    name: "sma"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    notes: "Simple moving average over current and prior rows."
+    exports: {sympy: "sma(x, n)"}
+
+  - operator_id: "sr.ts.wma_v1"
+    namespace: "sr.ts"
+    name: "wma"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    notes: "Linearly weighted moving average over current and prior rows."
+    exports: {sympy: "wma(x, n)"}
+
+  - operator_id: "sr.ts.mma_v1"
+    namespace: "sr.ts"
+    name: "mma"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    notes: "Modified moving average using recursive smoothing."
+    exports: {sympy: "mma(x, n)"}
+
+  - operator_id: "sr.ts.median_v1"
+    namespace: "sr.ts"
+    name: "median"
+    version: "v1"
+    arity: 2
+    search_visible: true
+    notes: "Moving median over current and prior rows."
+    exports: {sympy: "median(x, n)"}

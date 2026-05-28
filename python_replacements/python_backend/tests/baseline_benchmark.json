@@ -1,0 +1,20 @@
+{
+  "quick_bench": {
+    "dataset": "100x5 x0^2+x1+sin(x2)",
+    "niterations": 3,
+    "population_size": 15,
+    "runtime_seconds": 0.17,
+    "best_loss": 2.3051275065479158,
+    "best_complexity": 3,
+    "best_equation": "x1 + 0.980203156147894",
+    "n_equations": 12,
+    "n_seeds": 10,
+    "seed_stability_median_loss": 2.3064,
+    "seed_stability_std_loss": 0.2195,
+    "seed_stability_best_loss": 1.7113,
+    "seed_stability_worst_loss": 2.4437
+  },
+  "eval_100k_ms": 0.1299,
+  "complexity_us": 0.3,
+  "depth_us": 0.16
+}

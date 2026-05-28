@@ -1,0 +1,2 @@
+pysr/julia_registry_helpers.py
+pysr/juliapkg.json

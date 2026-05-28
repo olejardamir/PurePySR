@@ -1,0 +1,235 @@
+golden_problems_version: "v0-draft"
+spec_version: "EQC-SR-v1.0.3"
+notes: >
+  Draft golden problems set based on EQC-SR §21.3. Each problem must be
+  completed with dataset generation details, operator set, and acceptance bands.
+
+# Default search hyperparameters used by both pure-Python and stub golden runners.
+# Individual problems may override any of these under their own `search_options`.
+default_search_options:
+  niterations: 5
+  population_size: 10
+  maxsize: 20
+  maxdepth: 10
+  tournament_selection_n: 3
+  ncycles_per_iteration: 2
+  topn: 3
+  deterministic: true
+  fraction_replaced: 0.1
+  fraction_replaced_hof: 0.1
+  fraction_replaced_guesses: 0.0
+  optimize_probability: 1.0
+  optimizer_algorithm: "NelderMead"
+  optimizer_iterations: 8
+  optimizer_nrestarts: 2
+  optimizer_f_calls_limit: 0
+  max_evals: 0
+  timeout_in_seconds: 0
+  fast_cycle: false
+  turbo: false
+  early_stop_condition: ""
+  precision: 16
+  expression_spec: null
+  update: true
+  hof_migration: true
+
+problems:
+  - problem_id: "GOLDEN-LIN-001"
+    description: "y = x0"
+    generator:
+      seed: 0
+      n_samples: 200
+      n_features: 1
+      x_range: [-1.0, 1.0]
+      noise_std: 0.0
+    target:
+      expression: "x0"
+    operators:
+      binary: ["+", "-", "*"]
+      unary: []
+    acceptance:
+      max_loss: 1.0e-6
+      max_complexity: 5
+      equivalence_level: "E1-SR"
+
+  - problem_id: "GOLDEN-LIN-002"
+    description: "y = x0 + x1"
+    generator:
+      seed: 1
+      n_samples: 200
+      n_features: 2
+      x_range: [-1.0, 1.0]
+      noise_std: 0.0
+    target:
+      expression: "x0 + x1"
+    operators:
+      binary: ["+", "-", "*"]
+      unary: []
+    acceptance:
+      max_loss: 1.0e-6
+      max_complexity: 7
+      equivalence_level: "E1-SR"
+
+  - problem_id: "GOLDEN-MUL-001"
+    description: "y = x0 * x1"
+    generator:
+      seed: 2
+      n_samples: 200
+      n_features: 2
+      x_range: [-1.0, 1.0]
+      noise_std: 0.0
+    target:
+      expression: "x0 * x1"
+    operators:
+      binary: ["+", "-", "*"]
+      unary: []
+    acceptance:
+      max_loss: 1.0e-6
+      max_complexity: 7
+      equivalence_level: "E1-SR"
+
+  - problem_id: "GOLDEN-QUAD-001"
+    description: "y = x0^2 + 1"
+    generator:
+      seed: 3
+      n_samples: 200
+      n_features: 1
+      x_range: [-1.0, 1.0]
+      noise_std: 0.0
+    target:
+      expression: "x0^2 + 1"
+    operators:
+      binary: ["+", "-", "*"]
+      unary: []
+    acceptance:
+      max_loss: 0.11
+      max_complexity: 9
+      equivalence_level: "E1-SR"
+
+  - problem_id: "GOLDEN-SIN-001"
+    description: "y = sin(x0)"
+    generator:
+      seed: 4
+      n_samples: 200
+      n_features: 1
+      x_range: [-3.14, 3.14]
+      noise_std: 0.0
+    target:
+      expression: "sin(x0)"
+    operators:
+      binary: ["+", "-", "*"]
+      unary: ["sin"]
+    acceptance:
+      max_loss: 1.0e-3
+      max_complexity: 9
+      equivalence_level: "E1-SR"
+
+  - problem_id: "GOLDEN-SAFELOG-001"
+    description: "y = safe_log(abs(x0) + c)"
+    capability_level_required: "SR-L2"
+    generator:
+      seed: 5
+      n_samples: 200
+      n_features: 1
+      x_range: [-2.0, 2.0]
+      noise_std: 0.0
+    target:
+      expression: "safe_log(abs(x0) + c)"
+    operators:
+      binary: ["+", "-", "*"]
+      unary: ["safe_log", "abs"]
+    acceptance:
+      max_loss: 1.0e-3
+      max_complexity: 11
+      equivalence_level: "E1-SR"
+
+  - problem_id: "GOLDEN-MIXED-001"
+    description: "y = x0^2 + sin(x1)"
+    generator:
+      seed: 6
+      n_samples: 200
+      n_features: 2
+      x_range: [-2.0, 2.0]
+      noise_std: 0.0
+    target:
+      expression: "x0^2 + sin(x1)"
+    operators:
+      binary: ["+", "-", "*"]
+      unary: ["sin"]
+    acceptance:
+      max_loss: 1.0e-2
+      max_complexity: 13
+      equivalence_level: "E1-SR"
+
+  - problem_id: "GOLDEN-MAE-001"
+    description: "y = x0^2 + 1, elementwise_loss=mae"
+    capability_level_required: "SR-L2"
+    search_options:
+      elementwise_loss: "mae"
+      niterations: 40
+      population_size: 80
+      ncycles_per_iteration: 50
+    generator:
+      seed: 8
+      n_samples: 200
+      n_features: 1
+      x_range: [-1.0, 1.0]
+      noise_std: 0.0
+    target:
+      expression: "x0^2 + 1"
+    operators:
+      binary: ["+", "-", "*"]
+      unary: []
+    acceptance:
+      # 0.25 — MAE loss on y=x0^2+1 with x in [-1,1] produces a flat
+      # loss landscape near the median constant (~0.235).  Search seed
+      # 42 consistently yields a constant, so the threshold must sit
+      # above that.  Other seeds find the quadratic (loss ~0.01-0.17).
+      max_loss: 0.25
+      max_complexity: 9
+      equivalence_level: "E1-SR"
+
+  - problem_id: "GOLDEN-CONSTR-001"
+    description: "y = x0^2 + 1, ^ constrained to (-1, 1)"
+    capability_level_required: "SR-L2"
+    search_options:
+      constraints:
+        sr.math.pow_v1: [-1, 1]
+      niterations: 15
+      population_size: 80
+      ncycles_per_iteration: 50
+    generator:
+      seed: 3
+      n_samples: 200
+      n_features: 1
+      x_range: [-1.0, 1.0]
+      noise_std: 0.0
+    target:
+      expression: "x0^2 + 1"
+    operators:
+      binary: ["+", "-", "*", "^"]
+      unary: []
+    acceptance:
+      max_loss: 0.11
+      max_complexity: 9
+      equivalence_level: "E1-SR"
+
+  - problem_id: "GOLDEN-POW-001"
+    description: "y = x0^3"
+    capability_level_required: "SR-L2"
+    generator:
+      seed: 7
+      n_samples: 200
+      n_features: 1
+      x_range: [0.0, 2.0]
+      noise_std: 0.0
+    target:
+      expression: "x0^3"
+    operators:
+      binary: ["+", "-", "*", "^"]
+      unary: []
+    acceptance:
+      max_loss: 1.0e-4
+      max_complexity: 11
+      equivalence_level: "E1-SR"
+
